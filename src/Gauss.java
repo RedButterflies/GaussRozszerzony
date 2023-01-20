@@ -6,7 +6,7 @@ import static java.lang.Math.round;
 public class Gauss{
 
 
-    public static void algorytm() {
+    public static void algorytm() throws Exception {
         int wybor;
         Scanner wyborX = new Scanner(System.in);
         System.out.println("Wprowadz 1 any uzyc gotowych danych , 2 aby wprowadzic wlasne dane");
@@ -16,12 +16,8 @@ public class Gauss{
             System.out.println("Wprowadz liczbe rownan: ");
             Scanner liczbaR = new Scanner(System.in);
             int liczbaRownan = liczbaR.nextInt();
-            System.out.println("Wprowadz liczbe wspolczynnikow: ");
-            Scanner liczbaW = new Scanner(System.in);
-            int liczbaWspolcz = liczbaW.nextInt();
-            double[][] A = new double[liczbaRownan][liczbaWspolcz];
+            double[][] A = new double[liczbaRownan][liczbaRownan];
             double[] b = new double[liczbaRownan];
-            System.out.println("Wprowadz wspolczynniki rownan:");
             for (int i = 0; i < liczbaRownan; i++) {
                 for (int j = 0; j < liczbaRownan; j++) {
                     System.out.println("Wprowadz wspolczynnik " + (j + 1) + " rowanania " + (i + 1) + ":");
@@ -39,13 +35,20 @@ public class Gauss{
             int N = b.length;
 
             for (int i = 0; i < N; i++) {
+
                 // Znajdowanie elementu maksymalnego
                 int max = i;
                 for (int j = i + 1; j < N; j++) {
                     if (Math.abs(A[j][i]) > Math.abs(A[max][i])) {
                         max = j;
                     }
+
                 }
+                if(A[max][i]==0)
+                {
+                    throw new Exception("Element maksymalny to 0. Uklad jest osobliwy. Program konczy dzialanie ");
+                }
+
 
                 // Zamiana wierszy
                 double[] temp = A[i];
@@ -55,8 +58,9 @@ public class Gauss{
                 b[i] = b[max];
                 b[max] = t;
 
-                // Zerwoanie wierszy pod aktualna kolumna
+                // Zerowanie wierszy pod aktualna kolumna
                 for (int j = i + 1; j < N; j++) {
+
                     double factor = A[j][i] / A[i][i];
                     b[j] -= factor * b[i];
                     for (int k = i; k < N; k++) {
@@ -68,13 +72,16 @@ public class Gauss{
             // Rozwiazanie trojkatnej macierzy
             double[] x = new double[N];
             for (int i = N - 1; i >= 0; i--) {
+
                 double sum = 0.0;
                 for (int j = i + 1; j < N; j++) {
                     sum += A[i][j] * x[j];
                 }
+
                 x[i] = (b[i] - sum) / A[i][i];
+
             }
-            System.out.println("Rozwiazaniem ukladu jest wektor x=");
+            System.out.print("Rozwiazaniem ukladu jest wektor x=");
             System.out.print("[");
             for (int i = 0; i < liczbaRownan; i++) {
                 if(i!=liczbaRownan-1)
@@ -141,6 +148,7 @@ public class Gauss{
             System.out.println();
             int N = b.length;
 
+
             for (int i = 0; i < N; i++) {
 
                 int max = i;
@@ -148,6 +156,10 @@ public class Gauss{
                     if (Math.abs(A[j][i]) > Math.abs(A[max][i])) {
                         max = j;
                     }
+                }
+                if(A[max][i]==0)
+                {
+                    throw new Exception("Element maksymalny to 0. Uklad jest osobliwy. Program konczy dzialanie ");
                 }
 
 
@@ -171,13 +183,14 @@ public class Gauss{
 
             double[] x = new double[N];
             for (int i = N - 1; i >= 0; i--) {
+
                 double sum = 0.0;
                 for (int j = i + 1; j < N; j++) {
                     sum += A[i][j] * x[j];
                 }
                 x[i] = (b[i] - sum) / A[i][i];
             }
-            System.out.println("Rozwiazaniem ukladu jest wektor x=");
+            System.out.print("Rozwiazaniem ukladu jest wektor x=");
             System.out.print("[");
             for (int i = 0; i < liczbaRownan; i++) {
                 if(i!=liczbaRownan-1)
